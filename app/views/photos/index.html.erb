@@ -1,0 +1,51 @@
+<div class="header">
+	<h1>rately  
+		<i class="fa fa-sort "></i>
+	</h1></div>
+<div class="filler"></div>
+
+
+<% @photos.each do |p| %>
+<!-- <div class="iteration"> -->
+	<% @photo=p %>
+	<div class="p-wrap">
+	<!-- <div class="wrap"> -->
+		<div class="arrow-wrap">
+			<div class = "arrow"><%= link_to icon('sort-asc', class: 'fa-3x'), like_photo_path(@photo), method: :put %></div>	
+			<div class = "arrow"><%= link_to icon('sort-desc', class: 'fa-3x'), dislike_photo_path(@photo), method: :put %></div>
+		</div>
+		<div class="vote-wrap">
+				<div class="vote-up"><%= @photo.get_upvotes.size %></div>
+				<div class="vote-down"><%= @photo.get_downvotes.size %></div>
+		</div>
+		
+		<div class="pic">
+		<%= link_to image_tag(@photo.image.url(:medium)), @photo.image.url(:original), target: '_blank' %>
+		</div>
+	</div>
+	<div class="d-wrap">
+		<div class="delete">
+				<p><%= link_to "delete", photo_path(@photo), method: :delete, data: {confirm: "Are you sure?"} %></p>
+		</div>
+		<div class="descrip">
+		<p><%= @photo.description %></p>
+		</div>
+	</div>	
+
+			
+	
+	<!-- </div> -->
+<%end%>
+<!-- </div> -->
+
+
+<div class = "upload">
+	<h2>Upload Photo</h2>
+	<%= form_for @newphoto, :html => {:multipart => true} do |f| %>
+		<%= f.label "Choose image to upload: " %>
+		<%= f.file_field :image%>
+		<%= f.label :description %>
+		<%= f.text_field :description%>
+		<%= f.submit "upload" %>
+	<%end%>
+</div>
