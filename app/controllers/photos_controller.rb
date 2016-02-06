@@ -2,14 +2,22 @@ class PhotosController < ApplicationController
 	before_action :photo_owner, only:[:create]
 	before_action :photo_delete, only:[ :edit, :update,:destroy]
 	def photo_owner
-		@photo=Photo.new
-		unless @photo.user_id = current_user.id
+		@photo=Photo.new(photo_params)
+		# if @photo.user_id = current_user.id
+		# 	@photo
+		# else
+		# 	redirect_to root_path
+		# end
+		unless @photo.user_id = current_user
 			flash[:notice] = "Please log in or register"
 			redirect_to root_path
 		end
 	end
 	def photo_delete
-		if current_user != Photo.find(params[:id]).user
+		@photo=Photo.find(params[:id])
+		# @photo.destroy
+		unless @photo.user_id = current_user
+		# if current_user != Photo.find(params[:id]).user
 			redirect_to root_path
 		end
 		
